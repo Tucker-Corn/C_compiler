@@ -13,7 +13,7 @@ char* yyerror;
 
 void updateCol(); //TODO: Implement this function to keep track of column numbers
 void countLines(); //TODO: Implement this function to keep track of line numbers
-int processString(); //TODO: Implement this function to check for illegal escape sequences in string literals and print out escape sequences correctly.
+int processString(return STRCONST;); //TODO: Implement this function to check for illegal escape sequences in string literals and print out escape sequences correctly.
 %}
 
 newline         [\n]
@@ -40,8 +40,8 @@ comment         //TODO
 multlncomment   //TODO
 untermcomment   //TODO
 
-identifier      //TODO
-illidentifier   //TODO: regular expression for an illegal identifier
+identifier      {letter}+
+illidentifier   [0-9]+[a-zA-Z][a-zA-Z0-9]*
 
 yylineno = 1;
 
@@ -50,18 +50,51 @@ yylineno = 1;
  /* rules */
 
  /* Keywords */;
-//TODO: Support all keywords in mC
+"if"            {updateCol(); return KWD_IF;}
+"else"			{updateCol(); return KWD_ELSE;}
+"while"			{updateCol(); return KWD_WHILE;}
+"int"			{updateCol(); return KWD_INT;}
+"string"		{updateCol(); return KWD_STRING;}
+"char"			{updateCol(); return KWD_CHAR;}
+"return"		{updateCol(); return KWD_RETURN;}
+"void"          {updateCol(); return KWD_VOID;}
+
  /* Operators */;
-//TODO: Support all operators in mC
+\+              {updateCol(); return OPER_ADD;}
+\-				{updateCol(); return OPER_SUB;}
+\*				{updateCol(); return OPER_MUL;}				
+\/				{updateCol(); return OPER_DIV;}
+\%				{updateCol(); return OPER_MOD;}
+\<				{updateCol(); return OPER_LE;}
+\>				{updateCol(); return OPER_GT;}
+\<\=				{updateCol(); return OPER_LTE;}
+\>\=				{updateCol(); return OPER_GTE;}
+\=\=				{updateCol(); return OPER_EQ;}
+\!\=				{updateCol(); return OPER_NEQ;}
+\=				{updateCol(); return OPER_ASGN;}
+\[				{updateCol(); return LSQ_BRKT;}
+\]				{updateCol(); return RSQ_BRKT;}
+\{				{updateCol(); return LCRLY_BRKT;}
+\}				{updateCol(); return RCRLY_BRKT;}
+\(				{updateCol(); return LPAREN;}
+\)				{updateCol(); return RPAREN;}
+\,				{updateCol(); return COMMA;}
+\;				{updateCol(); return SEMICLN;}
+\@				{updateCol(); return OPER_AT;}
+\+\+				{updateCol(); return OPER_INC;}
+\-\-				{updateCol(); return OPER_DEC;}
+\&\&				{updateCol(); return OPER_AND;}
+\|\|				{updateCol(); return OPER_OR;}
+\!				{updateCol(); return OPER_NOT;}
 
  /* Identifiers */;
-{identifier}    //TODO
+{identifier}    {return ID; }
 {illidentifier} //TODO
 
  /* Constants */;
-{integer}       //TODO
+{integer}       {updateCol(); return INTCONST;}
 {integerlead0}  //TODO: "Integers may not have leading zeros"
-{character}     //TODO
+{character}     {updateCol(); return CHARCONST;}
 {string}        {updateCol(); return processString();}
 {untermstring}  {updateCol(); yyerror = "Unterminated string"; return ERROR;}
 {multlnstring}  {updateCol(); countLines(); yyerror = "String spans multiple lines"; return ERROR;} // Catching a multi-line string and generating an error.
@@ -73,7 +106,7 @@ yylineno = 1;
 
  /* Other */;
 {newline}       {yylineno++}
-{whitespace}    //TODO
+{whitespace}    {updateCol(); /* skip whitespace */}
 .               {return ILLEGAL_TOK;}
 
 %%
@@ -81,7 +114,8 @@ yylineno = 1;
 /* user routines */
 
 void updateCol(){
-	//TODO: Keep track of column number
+	yycol = scancol;
+    scancol += yyleng;
 }
 
 void countLines(){
