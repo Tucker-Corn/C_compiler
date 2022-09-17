@@ -105,7 +105,7 @@ yylineno = 1;
 {multlncomment} //TODO
 
  /* Other */;
-{newline}       {yylineno++}
+{newline}       {countLines();}
 {whitespace}    {updateCol(); /* skip whitespace */}
 .               {return ILLEGAL_TOK;}
 
@@ -119,7 +119,7 @@ void updateCol(){
 }
 
 void countLines(){
-	//TODO: Count the number of lines
+	scanlineno++;
 }
 
 
