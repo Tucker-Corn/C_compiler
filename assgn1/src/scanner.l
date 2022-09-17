@@ -1,4 +1,3 @@
-
 /* definitions */
 
 %{
@@ -23,22 +22,20 @@ character       [a-zA-Z]
 
 /*Gunnar character only includes letters it might need changes*/
 
-/* String can contain any characters between the double quotes other than a newline or
-// unescaped doublequotes.
+/* String can contain any characters between the double quotes other than a newline or unescaped doublequotes.
 */
-string       //TODO
+string       \".*\"
 
 /* multiline string has \n somewhere in the middle */
 multlnstring //TODO
 
-/* If the end quote is found, one of the two regexes above will be matched. Otherwise,
-// the string is unterminated.
+/* If the end quote is found, one of the two regexes above will be matched. Otherwise,the string is unterminated.
 */
-untermstring //TODO
+untermstring \"
 
-comment         //TODO
-multlncomment   //TODO
-untermcomment   //TODO
+comment        	"//".*                                  
+multlncomment   [/][*][^*]*[*]+([^*/][^*]*[*]+)*[/]
+untermcomment   [/][*]
 
 identifier      {letter}+
 illidentifier   [0-9]+[a-zA-Z][a-zA-Z0-9]*
@@ -100,9 +97,9 @@ yylineno = 1;
 {multlnstring}  {updateCol(); countLines(); yyerror = "String spans multiple lines"; return ERROR;} // Catching a multi-line string and generating an error.
 
  /* Comments */;
-{comment}       //TODO
-{untermcomment} //TODO
-{multlncomment} //TODO
+{comment}       {updateCol(); /* DO NOTHING */ }
+{untermcomment} {updateCol(); yyerror = "Unterminated comment"; return ERROR;}
+{multlncomment} {countLines();updateCol(); /* DO NOTHING */ }
 
  /* Other */;
 {newline}       {countLines();}
@@ -115,14 +112,17 @@ yylineno = 1;
 
 void updateCol(){
 	yycol = scancol;
-    scancol += yyleng;
+    scancol += yyleng; //make scancol = length of lexeme
 }
 
 void countLines(){
-	scanlineno++;
+	scanlineno++;  //add 1 to line num
+	yyline = yylineno; //update yyline
+	yycol = 1;    //new line so make column = 1 again 
 }
 
 
 int processString(){
 	// TODO: Process a string literal and return the appropriate microsyntax.
+	printf(yytext);
 }
