@@ -115,8 +115,8 @@ yylineno = 1;
 /* user routines */
 
 void updateCol(){
-	yycol += yyleng;
     scancol += yyleng; //make scancol = length of lexeme
+	yycol += scancol - yyleng;
 }
 
 void countLines(){
