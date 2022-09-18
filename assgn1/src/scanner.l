@@ -15,6 +15,7 @@ void countLines(); //TODO: Implement this function to keep track of line numbers
 int processString(); //TODO: Implement this function to check for illegal escape sequences in string literals and print out escape sequences correctly.
 %}
 
+letter			[a-zA-Z]
 digit			[0-9]
 newline         [\n]
 whitespace      [ \t]
