@@ -89,7 +89,7 @@ yylineno = 1;
 \!				{updateCol(); return OPER_NOT;}
 
  /* Identifiers */;
-{identifier}    {return ID; }
+{identifier}    {updateCol(); return ID; }
 {illidentifier} {updateCol(); return ERROR;}
 
  /* Constants */;
@@ -115,7 +115,7 @@ yylineno = 1;
 /* user routines */
 
 void updateCol(){
-	yycol = scancol-1;
+	yycol = scancol;
     scancol += yyleng; //make scancol = length of lexeme
 }
 
