@@ -94,7 +94,7 @@ yylineno = 1;
 
  /* Constants */;
 {integer}       {updateCol(); return INTCONST;}
-{integerlead0}  {updateCol(); return ERROR;}
+{integerlead0}  {updateCol(); yyerror = "leading zero"; return ERROR;}
 {character}     {updateCol(); return CHARCONST;}
 {string}        {updateCol(); return processString();}
 {untermstring}  {updateCol(); yyerror = "Unterminated string"; return ERROR;}
