@@ -6,5 +6,5 @@
 2.Our group plans to work on the project at least once a day.
 Our collaboration for assignment 1 is from using github for repositorys/working branches and discord to communitcate.
 
-3.Provide two examples of how you will test the correctness of your code. These examples
-should be different from the ones provided in this document.
+3. test3.mC
+   test4.mc
