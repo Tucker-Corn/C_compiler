@@ -97,7 +97,7 @@ yylineno = 1;
 {integerlead0}  {updateCol(); yyerror = "leading zero"; return ERROR;}
 {character}     {updateCol(); return CHARCONST;}
 {string}        {updateCol(); return processString();}
-{untermstring}  {updateCol(); yyerror = "Unterminated string"; return ERROR;}
+{untermstring}  {countLines(); updateCol(); yyerror = "Unterminated string"; return ERROR;}
 {multlnstring}  {updateCol(); countLines(); yyerror = "String spans multiple lines"; return ERROR;} // Catching a multi-line string and generating an error.
 
  /* Comments */;
