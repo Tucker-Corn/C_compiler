@@ -12,7 +12,7 @@ char* yyerror;
 
 void updateCol(); //TODO: Implement this function to keep track of column numbers
 void countLines(); //TODO: Implement this function to keep track of line numbers
-int processString(return STRCONST;); //TODO: Implement this function to check for illegal escape sequences in string literals and print out escape sequences correctly.
+int processString(); //TODO: Implement this function to check for illegal escape sequences in string literals and print out escape sequences correctly.
 %}
 
 newline         [\n]
@@ -124,5 +124,5 @@ void countLines(){
 
 int processString(){
 	// TODO: Process a string literal and return the appropriate microsyntax.
-	printf(yytext);
+	return STRCONST;
 }
