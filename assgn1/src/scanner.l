@@ -18,13 +18,14 @@ int processString(); //TODO: Implement this function to check for illegal escape
 newline         [\n]
 whitespace      [ \t]
 integer         0|[1-9]{digit}*
+integerlead0	^[0]+/[0-9]
 character       [a-zA-Z] 
 
 /*Gunnar character only includes letters it might need changes*/
 
 /* String can contain any characters between the double quotes other than a newline or unescaped doublequotes.
 */
-string       \"(.)*\"
+string       \"(.)*\"  
 
 /* multiline string has \n somewhere in the middle */
 multlnstring //TODO
@@ -85,12 +86,12 @@ yylineno = 1;
 \!				{updateCol(); return OPER_NOT;}
 
  /* Identifiers */;
-{identifier}    {return ID; }
-{illidentifier} //TODO
+{identifier}    {updateCol();return ID; }
+{illidentifier} {updateCol();return ERROR; }
 
  /* Constants */;
 {integer}       {updateCol(); return INTCONST;}
-{integerlead0}  //TODO: "Integers may not have leading zeros"
+{integerlead0}  {updateCol(); yyerror = "leading 0"; return ERROR;}
 {character}     {updateCol(); return CHARCONST;}
 {string}        {updateCol(); return processString();}
 {untermstring}  {updateCol(); yyerror = "Unterminated string"; return ERROR;}
