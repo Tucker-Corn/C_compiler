@@ -91,7 +91,7 @@ yylineno = 1;
 
  /* Constants */;
 {integer}       {updateCol(); return INTCONST;}
-{integerlead0}  //TODO: "Integers may not have leading zeros"
+{integerlead0}  {updateCol(); yyerror = "leading zeros not allowed"; return ERROR;}
 {character}     {updateCol(); return CHARCONST;}
 {string}        {updateCol(); return processString();}
 {untermstring}  {updateCol(); yyerror = "Unterminated string"; return ERROR;}
