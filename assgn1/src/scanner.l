@@ -19,6 +19,7 @@ newline         [\n]
 whitespace      [ \t]
 integer         0|[1-9]{digit}*
 character       \'{0,1}/'
+integerlead0	[0]+/[0-9]{digit}*
 
 /*Gunnar character only includes letters it might need changes*/
 
