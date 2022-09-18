@@ -115,7 +115,7 @@ yylineno = 1;
 /* user routines */
 
 void updateCol(){
-	yycol += yyleng;
+	yycol = scancol;
     scancol += yyleng; //make scancol = length of lexeme
 }
 
