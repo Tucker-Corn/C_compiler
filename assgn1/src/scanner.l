@@ -20,7 +20,7 @@ digit			[0-9]
 newline         [\n]
 whitespace      [ \t]
 integer         0|[1-9]{digit}*
-character       \'([^\']|\\[\\nt\'])\'
+character       \'([^\']|\\[^\\nt\'])\'
 integerlead0	[0][1-9]+
 
 
