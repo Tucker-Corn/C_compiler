@@ -115,14 +115,14 @@ yylineno = 1;
 /* user routines */
 
 void updateCol(){
-	yycol = scancol;
+	yycol += scancol;
     scancol += yyleng; //make scancol = length of lexeme
 }
 
 void countLines(){
 	scanlineno++;  //add 1 to line num
 	yylineno = scanlineno; //update yylineno
-	yycol -= scancol;    //new line so make column = 1 again 
+	yycol = 0 ;    //new line so make column = 1 again 
 }
 
 
