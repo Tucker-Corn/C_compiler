@@ -18,7 +18,7 @@ int processString(); //TODO: Implement this function to check for illegal escape
 newline         [\n]
 whitespace      [ \t]
 integer         0|[1-9]{digit}*
-character       [a-zA-Z] 
+character       \'{0,1}/'
 
 /*Gunnar character only includes letters it might need changes*/
 
@@ -27,7 +27,7 @@ character       [a-zA-Z]
 string       \"(.)*\"
 
 /* multiline string has \n somewhere in the middle */
-multlnstring //TODO
+multlnstring \"\"
 
 /* If the end quote is found, one of the two regexes above will be matched. Otherwise,the string is unterminated.
 */
@@ -86,7 +86,7 @@ yylineno = 1;
 
  /* Identifiers */;
 {identifier}    {return ID; }
-{illidentifier} //TODO
+{illidentifier} {return ERROR;}
 
  /* Constants */;
 {integer}       {updateCol(); return INTCONST;}
