@@ -86,7 +86,7 @@ yylineno = 1;
 
  /* Identifiers */;
 {identifier}    {return ID; }
-{illidentifier} {return ERROR;}
+{illidentifier} {updateCol()return ERROR;}
 
  /* Constants */;
 {integer}       {updateCol(); return INTCONST;}
