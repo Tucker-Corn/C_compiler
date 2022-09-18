@@ -35,6 +35,8 @@
 #define OPER_NOT	287
 #define OPER_MOD	288
 #define ERROR		289
+#define OPER_LE		290
+#define ILLEGAL_TOK	291
 
 /* brackets & parens */
 #define LSQ_BRKT    274
