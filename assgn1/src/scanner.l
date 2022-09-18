@@ -20,8 +20,8 @@ digit			[0-9]
 newline         [\n]
 whitespace      [ \t]
 integer         0|[1-9]{digit}*
-character       '[^'*]/'
-integerlead0	[0]+/[0-9]{digit}*
+character       \'([^\']|\\[\\nt\'])\'
+integerlead0	[0][1-9]+
 
 
 /*Gunnar character only includes letters it might need changes*/
