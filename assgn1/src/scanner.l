@@ -117,7 +117,7 @@ void updateCol(){
 
 void countLines(){
 	scanlineno++;  //add 1 to line num
-	yyline = yylineno; //update yyline
+	yylineno = scanlineno; //update yylineno
 	yycol = 1;    //new line so make column = 1 again 
 }
 
