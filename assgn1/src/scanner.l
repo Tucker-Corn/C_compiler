@@ -98,7 +98,7 @@ yylineno = 1;
 {character}     {updateCol(); return CHARCONST;}
 {string}        {updateCol(); return processString();}
 {untermstring}  {countLines(); updateCol(); yyerror = "Unterminated string"; return ERROR;}
-{multlnstring}  {updateCol(); countLines(); yyerror = "String spans multiple lines"; return ERROR;} // Catching a multi-line string and generating an error.
+{multlnstring}  {countLines(); updateCol();  yyerror = "String spans multiple lines"; return ERROR;} // Catching a multi-line string and generating an error.
 
  /* Comments */;
 {comment}       {updateCol(); /* DO NOTHING */ }
@@ -115,7 +115,7 @@ yylineno = 1;
 /* user routines */
 
 void updateCol(){
-	yycol = scancol;
+	yycol ++;
     scancol += yyleng; //make scancol = length of lexeme
 }
 
