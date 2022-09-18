@@ -15,11 +15,13 @@ void countLines(); //TODO: Implement this function to keep track of line numbers
 int processString(); //TODO: Implement this function to check for illegal escape sequences in string literals and print out escape sequences correctly.
 %}
 
+digit			[0-9]
 newline         [\n]
 whitespace      [ \t]
 integer         0|[1-9]{digit}*
 character       \'{0,1}/'
 integerlead0	[0]+/[0-9]{digit}*
+
 
 /*Gunnar character only includes letters it might need changes*/
 
@@ -87,7 +89,7 @@ yylineno = 1;
 
  /* Identifiers */;
 {identifier}    {return ID; }
-{illidentifier} {updateCol()return ERROR;}
+{illidentifier} {updateCol(); return ERROR;}
 
  /* Constants */;
 {integer}       {updateCol(); return INTCONST;}
