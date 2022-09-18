@@ -24,7 +24,7 @@ character       [a-zA-Z]
 
 /* String can contain any characters between the double quotes other than a newline or unescaped doublequotes.
 */
-string       \".*\"
+string       \"(.)*\"
 
 /* multiline string has \n somewhere in the middle */
 multlnstring //TODO
