@@ -34,11 +34,22 @@ char* scope = "";
 %token <strval> ID
 %token <value> INTCONST
 /* TODO: Add the rest of the tokens below.*/
-
+%token </**/> int 
+%token </**/> char
+%token </**/> void
+%token </**/> funDecl
+%token </**/> var
+%token </**/> expression
+%token </**/> if
+%token </**/> else
+%token </**/> while
+%token </**/> return
+%token </**/> CHARCONST
+%token </**/> STRCONST
 
 /* TODO: Declate non-terminal symbols as of type node. Provided below is one example. node is defined as 'struct treenode *node' in the above union data structure. This declaration indicates to parser that these non-terminal variables will be implemented using a 'treenode *' type data structure. Hence, the circles you draw when drawing a parse tree, the following lines are telling yacc that these will eventually become circles in an AST. This is one of the connections between the AST you draw by hand and how yacc implements code to concretize that. We provide with two examples: program and declList from the grammar. Make sure to add the rest.  */
 
-%type <node> program declList
+%type <node> program declList decl varDecl typeSpecifier unDecl formalDeclList formalDecl funBody localDeclList statementList statement compoundStmt assignStmt condStmt loopStmt returnStmt var expression relop addExpr addop term mulop factor funcCallExpr argList
 
 
 
@@ -73,6 +84,317 @@ declList        : decl
                  }
                 ;
 
+decl            : varDecl
+                 {
+
+                 }
+                ;
+                | funDecl
+                 {
+
+                 }
+                ;
+
+varDecl         : typeSpecifier ID [ INTCONST ] 
+                 {
+
+                 }
+                ;
+                | typeSpecifier ID 
+                 {
+
+                 }
+                ;
+
+typeSpecifier   : int
+                 {
+
+                 }
+                ;
+                | char
+                 {
+
+                 }
+                ;
+                | void
+                 {
+
+                 }
+                ;
+
+unDecl          : typeSpecifier ID ( formalDeclList ) funBody
+                {
+
+                }
+                ;
+                | typeSpecifier ID ( ) funBody
+                {
+
+                }
+                ;
+
+formalDeclList  : formalDecl
+                {
+
+                }
+                ;
+                | formalDecl , formalDeclList
+                {
+
+                }
+                ;
+
+formalDecl      : typeSpecifier ID
+                {
+
+                }
+                ;
+                | typeSpecifier ID[ ]
+                {
+
+                }
+                ;
+
+funBody         : {localDeclList statementList }
+                {
+
+                }
+                ;
+
+localDeclList :
+                | varDecl localDeclList
+                {
+
+                }
+                ;
+
+statementList :
+                | statement statementList
+                {
+
+                }
+                ;
+
+statement        : compoundStmt
+                {
+
+                }
+                ;
+                | assignStmt
+                {
+
+                }
+                ;
+                | condStmt
+                {
+
+                }
+                ;
+                | loopStmt
+                {
+
+                }
+                ;
+                | returnStmt
+                {
+
+                }
+                ;
+
+compoundStmt    : {statementList }
+                {
+
+                }
+                ;
+
+assignStmt      : var = expression 
+                {
+
+                }
+                ;
+                | expression ;
+                {
+
+                }
+                ;
+
+condStmt        : if ( expression ) statement
+                {
+
+                }
+                ;
+                | if ( expression ) statement else statement
+                {
+
+                }
+                ;
+
+loopStmt        : while ( expression ) statement
+                {
+
+                }
+                ;
+
+returnStmt      : return 
+                {
+
+                }
+                ;
+                | return expression 
+                {
+
+                }
+                ;
+
+var             : ID
+                {
+
+                }
+                ;
+                | ID [ addExpr ]
+                {
+
+                }
+                ;
+
+expression      : addExpr
+                {
+
+                }
+                ;
+                | expression relop addExpr
+                {
+
+                }
+                ;
+
+relop            : <=
+                {
+
+                }
+                ;
+                | <
+                {
+
+                }
+                ;
+                | >
+                {
+
+                }
+                ;
+                | >=
+                {
+
+                }
+                ;
+                | ==
+                {
+
+                }
+                ;
+                | ! =
+                {
+
+                }
+                ;
+
+addExpr         : term
+                {
+
+                }
+                ;
+                | addExpr addop term
+                {
+
+                }
+                ;
+
+addop            : +
+                {
+
+                }
+                ;
+                | -
+                {
+
+                }
+                ;
+
+term             : factor
+                {
+
+                }
+                ;
+                | term mulop factor
+                {
+
+                }
+                ;
+
+mulop           : *
+                {
+
+                }
+                ;
+                | /
+                {
+
+                }
+                ;
+
+factor          : ( expression )
+                {
+
+                }
+                ;
+                | var
+                {
+
+                }
+                ;
+                | funcCallExpr
+                {
+
+                }
+                ;
+                | INTCONST
+                {
+
+                }
+                ;
+                | CHARCONST
+                {
+
+                }
+                ;
+                | STRCONST
+                {
+
+                }
+                ;
+
+funcCallExpr    : ID ( argList )
+                {
+
+                }
+                ;
+                | ID ( )
+                {
+
+                }
+                ;
+
+argList          : expression
+                {
+
+                }
+                ;
+                | argList , expression
+                {
+
+                }
+                ;
 %%
 
 int yywarning(char * msg){
