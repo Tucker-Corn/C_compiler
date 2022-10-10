@@ -4,6 +4,10 @@
 #include<stdlib.h>
 #include<string.h>
 
+char *nodeNames[8] = {"program", "declList", "decl", "varDecl", "typeSpecifier", "funDecl", "formalDeclList", "formalDecl", "funBody", "localDeclList", "statementList", "statement",
+ "compoundStmt", "assignStmt", "condStmt", "loopStmt", "returnStmt", "var", "expression", "relop", "addExpr", "addop", "term", "mulop", "factor", "funcCallExpr", "argList"};
+tree *ast;
+
 tree *maketree(int kind){
   tree *this = (tree *) malloc(sizeof(struct treenode));
   this->nodeKind = kind;
@@ -13,6 +17,7 @@ tree *maketree(int kind){
 }
 
 tree *maketreeWithVal(int kind, int val){
+  
   tree *this = (tree *) malloc(sizeof(struct treenode));
   this->nodeKind = kind;
   this->numChildren = 0;
@@ -22,6 +27,7 @@ tree *maketreeWithVal(int kind, int val){
 }
 
 void addChild(tree *parent, tree *child) {
+  
   if (parent->numChildren == MAXCHILDREN) {
     printf("Cannot add child to parent node\n");
     exit(1);
@@ -31,8 +37,12 @@ void addChild(tree *parent, tree *child) {
 }
 
 void printAst(tree *root, int nestLevel){
-
-   if (root->nodeKind == INTEGER) {
+  if (node != NULL) { //check if null in all tree functions
+    if (node->nodeKind == INT_TYPE) printf("<%d>\n", node->val);
+    else if (node->nodeKind < 32) printf("%s\n", nodeNames[node->nodeKind]);
+    else printf("nodeKind = %d ? val = %d ?\n", node->nodeKind, node->val);
+  }
+   if (root->nodeKind == INT_TYPE) {
 	printf("<%d>\n", root->val);
     }    
     else {
