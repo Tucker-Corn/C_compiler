@@ -17,6 +17,8 @@ enum nodeTypes {PROGRAM, DECLLIST, DECL, VARDECL, TYPESPEC, FUNDECL,
 
 enum opType {ADD, SUB, MUL, DIV, LT, LTE, EQ, GTE, GT, NEQ};
 
+
+tree *ast;
 /* NOTE: mC has two kinds of scopes for variables : local and global. Variables declared outside any
 function are considered globals, whereas variables (and parameters) declared inside a function foo are local to foo. You should update the scope variable whenever you are inside a production that matches function definition (funDecl production). The rationale is that you are entering that function, so all variables, arrays, and other functions should be within this scope. You should pass this variable whenever you are calling the ST_insert or ST_lookup functions. This variable should be updated to scope = "" to indicate global scope whenever funDecl finishes. Treat these hints as helpful directions only. You may implement all of the functions as you like and not adhere to my instructions. As long as the directory structure is correct and the file names are correct, we are okay with it. */
 char* scope = "";
@@ -34,22 +36,24 @@ char* scope = "";
 %token <strval> ID
 %token <value> INTCONST
 /* TODO: Add the rest of the tokens below.*/
-%token </**/> int 
-%token </**/> char
-%token </**/> void
-%token </**/> funDecl
-%token </**/> var
-%token </**/> expression
-%token </**/> if
-%token </**/> else
-%token </**/> while
-%token </**/> return
-%token </**/> CHARCONST
-%token </**/> STRCONST
-
+%token <value> KWD_INT
+%token <value> KWD_CHAR
+%token <value> KWD_VOID
+%token <value> KWD_IF
+%token <value> KWD_ELSE
+%token <value> KWD_WHILE
+%token <value> KWD_RETURN
+%token <value> CHARCONST
+%token <strval> STRCONST
+%token <value> LPAREN RPAREN 
+%token <value> LBRACKET RBRACKET
+%token <value> ASSIGN_OP 
+%token <value> ADD_OP 
+%token <value> SEMI_COLON 
+%token <value> COMMA 
 /* TODO: Declate non-terminal symbols as of type node. Provided below is one example. node is defined as 'struct treenode *node' in the above union data structure. This declaration indicates to parser that these non-terminal variables will be implemented using a 'treenode *' type data structure. Hence, the circles you draw when drawing a parse tree, the following lines are telling yacc that these will eventually become circles in an AST. This is one of the connections between the AST you draw by hand and how yacc implements code to concretize that. We provide with two examples: program and declList from the grammar. Make sure to add the rest.  */
 
-%type <node> program declList decl varDecl typeSpecifier unDecl formalDeclList formalDecl funBody localDeclList statementList statement compoundStmt assignStmt condStmt loopStmt returnStmt var expression relop addExpr addop term mulop factor funcCallExpr argList
+%type <node> program declList decl varDecl typeSpecifier funDecl formalDeclList formalDecl funBody localDeclList statementList statement compoundStmt assignStmt condStmt loopStmt returnStmt var expression relop addExpr addop term mulop factor funcCallExpr argList
 
 
 
@@ -95,39 +99,42 @@ decl            : varDecl
                  }
                 ;
 
-varDecl         : typeSpecifier ID [ INTCONST ] 
+varDecl         : typeSpecifier ID LBRACKET INTCONST RBRACKET SEMI_COLON
                  {
-
+                
                  }
                 ;
-                | typeSpecifier ID 
+                | typeSpecifier ID SEMI_COLON
                  {
-
-                 }
-                ;
-
-typeSpecifier   : int
-                 {
-
-                 }
-                ;
-                | char
-                 {
-
-                 }
-                ;
-                | void
-                 {
-
+                    printf("%s\n", yylval.strval);
+		            tree *vardeclNode = maketree(VARDECL);
+                    addChild(declNode, $1);
+		            $$ = vardeclNode;
                  }
                 ;
 
-unDecl          : typeSpecifier ID ( formalDeclList ) funBody
+typeSpecifier   : KWD_INT
+                 {
+                    $$ = maketreeWithVal(TYPESPEC, INT_TYPE);
+                 }
+                ;
+                | KWD_CHAR
+                 {
+                    $$ = maketreeWithVal(TYPESPEC, CHAR_TYPE);
+                 }
+                ;
+                | KWD_VOID
+                 {
+                    $$ = maketreeWithVal(TYPESPEC, VOID_TYPE);
+                 }
+                ;
+
+funDecl          : typeSpecifier ID LPAREN formalDeclList RPAREN funBody
                 {
 
                 }
                 ;
-                | typeSpecifier ID ( ) funBody
+                | typeSpecifier ID LPAREN RPAREN funBody
                 {
 
                 }
@@ -138,7 +145,7 @@ formalDeclList  : formalDecl
 
                 }
                 ;
-                | formalDecl , formalDeclList
+                | formalDecl COMMA formalDeclList
                 {
 
                 }
@@ -149,7 +156,7 @@ formalDecl      : typeSpecifier ID
 
                 }
                 ;
-                | typeSpecifier ID[ ]
+                | typeSpecifier ID LBRACKET RBRACKET
                 {
 
                 }
@@ -164,7 +171,7 @@ funBody         : {localDeclList statementList }
 localDeclList :
                 | varDecl localDeclList
                 {
-
+                     
                 }
                 ;
 
@@ -207,40 +214,40 @@ compoundStmt    : {statementList }
                 }
                 ;
 
-assignStmt      : var = expression 
+assignStmt      : var EQ expression SEMI_COLON
                 {
 
                 }
                 ;
-                | expression ;
-                {
-
-                }
-                ;
-
-condStmt        : if ( expression ) statement
-                {
-
-                }
-                ;
-                | if ( expression ) statement else statement
+                | expression  SEMI_COLON
                 {
 
                 }
                 ;
 
-loopStmt        : while ( expression ) statement
+condStmt        : KWD_IF LPAREN expression RPAREN statement
+                {
+
+                }
+                ;
+                | KWD_IF LPAREN expression RPAREN statement KWD_ELSE statement
                 {
 
                 }
                 ;
 
-returnStmt      : return 
+loopStmt        : KWD_WHILE LPAREN expression RPAREN statement
                 {
 
                 }
                 ;
-                | return expression 
+
+returnStmt      : KWD_RETURN SEMI_COLON
+                {
+
+                }
+                ;
+                | KWD_RETURN expression SEMI_COLON
                 {
 
                 }
@@ -248,10 +255,10 @@ returnStmt      : return
 
 var             : ID
                 {
-
+                    $$ = maketreeWithVal(IDENTIFIER, $1);
                 }
                 ;
-                | ID [ addExpr ]
+                | ID LBRACKET addExpr RBRACKET
                 {
 
                 }
@@ -268,22 +275,22 @@ expression      : addExpr
                 }
                 ;
 
-relop            : <=
+relop            : LTE
                 {
 
                 }
                 ;
-                | <
+                | LT
                 {
 
                 }
                 ;
-                | >
+                | GT
                 {
 
                 }
                 ;
-                | >=
+                | GTE
                 {
 
                 }
@@ -293,7 +300,7 @@ relop            : <=
 
                 }
                 ;
-                | ! =
+                | NEQ
                 {
 
                 }
@@ -310,12 +317,12 @@ addExpr         : term
                 }
                 ;
 
-addop            : +
+addop            : ADD
                 {
 
                 }
                 ;
-                | -
+                | SUB
                 {
 
                 }
@@ -332,18 +339,18 @@ term             : factor
                 }
                 ;
 
-mulop           : *
+mulop           : MUL
                 {
 
                 }
                 ;
-                | /
+                | DIV
                 {
 
                 }
                 ;
 
-factor          : ( expression )
+factor          : LPAREN expression RPAREN
                 {
 
                 }
@@ -374,12 +381,12 @@ factor          : ( expression )
                 }
                 ;
 
-funcCallExpr    : ID ( argList )
+funcCallExpr    : ID LPAREN argList RPAREN
                 {
 
                 }
                 ;
-                | ID ( )
+                | ID LPAREN RPAREN
                 {
 
                 }
@@ -390,7 +397,7 @@ argList          : expression
 
                 }
                 ;
-                | argList , expression
+                | argList COMMA expression
                 {
 
                 }
