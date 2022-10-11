@@ -21,7 +21,8 @@ int ST_insert(char *id, char *scope, int data_type, int symbol_type){
     //Concatenate the scope and id and use that to create the hash key
 	unsigned char *key = sprintf(id, scope);
 	index = ST_lookup(id,scope);
-    // TODO: Use ST_lookup to check if the id is already in the symbol table. If yes, ST_lookup will return an index that is not -1. if index != -1, that means the variable is already in the hashtable. Hence, no need to insert that variable again. However, if index == -1, then use linear probing to find an empty spot and insert there. Then return that index.
+    // if the index is -1 then the id is not currently in the hashtable
+	// it will probe through until it an empty space if found
 	if(index == -1){
 		index = hash(key);
 		while(strTable[index].id != NULL){
