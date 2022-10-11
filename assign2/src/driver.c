@@ -7,7 +7,7 @@
 int main() {
     if (!yyparse()){
         printAst(ast, 1);
-
+// hello this is a change
         printf("\n\nSYMBOL TABLE:\n");
         for(int i = 0; i < MAXIDS; i++){
             if(strTable[i].id != NULL){
