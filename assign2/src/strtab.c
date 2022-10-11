@@ -18,13 +18,12 @@ unsigned long hash(unsigned char *str)
 
 int ST_insert(char *id, char *scope, int data_type, int symbol_type){
 	int index = 0;
-    //Concatenate the scope and id and use that to create the hash key
-	unsigned char *key = sprintf(id, scope);
+
 	index = ST_lookup(id,scope);
     // if the index is -1 then the id is not currently in the hashtable
 	// it will probe through until it an empty space if found
 	if(index == -1){
-		index = hash(key);
+		index = hash(strcat(id, scope));
 		while(strTable[index].id != NULL){
 			index++;
 		}
@@ -45,8 +44,7 @@ int ST_lookup(char *id, char *scope) {
     // sets index to -1 initially
 	int index = -1;
 	//Concatenate the scope and id and use that to create the hash key
-	unsigned char *key = sprintf(id, scope);
-	int position = hash(key);
+	int position = hash(strcat(id, scope));
 
 	if(strTable[position].id == id){
 		index = position;
