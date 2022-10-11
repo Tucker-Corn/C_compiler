@@ -47,6 +47,7 @@ char* scope = "";
 %token <strval> STRCONST
 %token <value> LPAREN RPAREN 
 %token <value> LBRACKET RBRACKET
+%token <value> LCURLY RCURLY
 %token <value> ASSIGN_OP 
 %token <value> ADD_OP 
 %token <value> SEMI_COLON 
@@ -141,7 +142,9 @@ funDecl          : typeSpecifier ID LPAREN formalDeclList RPAREN funBody
 
 formalDeclList  : formalDecl
                 {
-
+                    tree* formaldeclNode = maketree(FORMALDECL);
+                    addChild(formaldeclNode, $1);
+                    $$ = formaldeclNode;
                 }
                 | formalDecl COMMA formalDeclList
                 {
@@ -159,7 +162,7 @@ formalDecl      : typeSpecifier ID
                 }
                 ;
 
-funBody         : {localDeclList statementList }
+funBody         : LCURLY localDeclList statementList RCURLY
                 {
 
                 }
@@ -181,27 +184,37 @@ statementList :
 
 statement        : compoundStmt
                 {
-
+                    tree* statementNode = maketree(STATEMENT);
+                    addChild(statementNode, $1);
+                    $$ = statementNode;
                 }
                 | assignStmt
                 {
-
+                    tree* statementNode = maketree(STATEMENT);
+                    addChild(statementNode, $1);
+                    $$ = statementNode;
                 }
                 | condStmt
                 {
-
+                    tree* statementNode = maketree(STATEMENT);
+                    addChild(statementNode, $1);
+                    $$ = statementNode;
                 }
                 | loopStmt
                 {
-
+                    tree* statementNode = maketree(STATEMENT);
+                    addChild(statementNode, $1);
+                    $$ = statementNode;
                 }
                 | returnStmt
                 {
-
+                    tree* statementNode = maketree(STATEMENT);
+                    addChild(statementNode, $1);
+                    $$ = statementNode;
                 }
                 ;
 
-compoundStmt    : {statementList }
+compoundStmt    : LCURLY statementList RCURLY
                 {
 
                 }
@@ -255,7 +268,9 @@ var             : ID
 
 expression      : addExpr
                 {
-
+                    tree* ExprNode = maketree(EXPRESSION);
+                    addChild(ExprNode, $1);
+                    $$ = ExprNode;
                 }
                 | expression relop addExpr
                 {
@@ -291,7 +306,9 @@ relop            : LTE
 
 addExpr         : term
                 {
-
+                    tree* addExprNode = maketree(ADDEXPR);
+                    addChild(addExprNode, $1);
+                    $$ = addExprNode;
                 }
                 | addExpr addop term
                 {
@@ -311,7 +328,9 @@ addop            : ADD
 
 term             : factor
                 {
-
+                    tree* termNode = maketree(TERM);
+                    addChild(termNode, $1);
+                    $$ = termNode;
                 }
                 | term mulop factor
                 {
@@ -335,11 +354,15 @@ factor          : LPAREN expression RPAREN
                 }
                 | var
                 {
-
+                    tree* factorNode = maketree(FACTOR);
+                    addChild(factorNode, $1);
+                    $$ = factorNode;
                 }
                 | funcCallExpr
                 {
-
+                    tree* factorNode = maketree(FACTOR);
+                    addChild(factorNode, $1);
+                    $$ = factorNode;
                 }
                 | INTCONST
                 {
@@ -367,7 +390,9 @@ funcCallExpr    : ID LPAREN argList RPAREN
 
 argList          : expression
                 {
-
+                    tree* argListNode = maketree(ARGLIST);
+                    addChild(argListNode, $1);
+                    $$ = argListNode;
                 }
                 | argList COMMA expression
                 {
