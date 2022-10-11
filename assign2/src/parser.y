@@ -90,12 +90,15 @@ declList        : decl
 
 decl            : varDecl
                  {
-
+                    tree* declNode = maketree(decl);
+                    addChild(declNode, $1);
+                    $$ = declNode; 
                  }
-                ;
                 | funDecl
                  {
-
+                    tree* declNode = maketree(decl);
+                    addChild(declNode, $1);
+                    $$ = declNode; 
                  }
                 ;
 
@@ -103,7 +106,6 @@ varDecl         : typeSpecifier ID LBRACKET INTCONST RBRACKET SEMI_COLON
                  {
                 
                  }
-                ;
                 | typeSpecifier ID SEMI_COLON
                  {
                     printf("%s\n", yylval.strval);
@@ -117,12 +119,10 @@ typeSpecifier   : KWD_INT
                  {
                     $$ = maketreeWithVal(TYPESPEC, INT_TYPE);
                  }
-                ;
                 | KWD_CHAR
                  {
                     $$ = maketreeWithVal(TYPESPEC, CHAR_TYPE);
                  }
-                ;
                 | KWD_VOID
                  {
                     $$ = maketreeWithVal(TYPESPEC, VOID_TYPE);
@@ -133,7 +133,6 @@ funDecl          : typeSpecifier ID LPAREN formalDeclList RPAREN funBody
                 {
 
                 }
-                ;
                 | typeSpecifier ID LPAREN RPAREN funBody
                 {
 
@@ -144,7 +143,6 @@ formalDeclList  : formalDecl
                 {
 
                 }
-                ;
                 | formalDecl COMMA formalDeclList
                 {
 
@@ -155,7 +153,6 @@ formalDecl      : typeSpecifier ID
                 {
 
                 }
-                ;
                 | typeSpecifier ID LBRACKET RBRACKET
                 {
 
@@ -186,22 +183,18 @@ statement        : compoundStmt
                 {
 
                 }
-                ;
                 | assignStmt
                 {
 
                 }
-                ;
                 | condStmt
                 {
 
                 }
-                ;
                 | loopStmt
                 {
 
                 }
-                ;
                 | returnStmt
                 {
 
@@ -218,7 +211,6 @@ assignStmt      : var EQ expression SEMI_COLON
                 {
 
                 }
-                ;
                 | expression  SEMI_COLON
                 {
 
@@ -229,7 +221,6 @@ condStmt        : KWD_IF LPAREN expression RPAREN statement
                 {
 
                 }
-                ;
                 | KWD_IF LPAREN expression RPAREN statement KWD_ELSE statement
                 {
 
@@ -246,7 +237,6 @@ returnStmt      : KWD_RETURN SEMI_COLON
                 {
 
                 }
-                ;
                 | KWD_RETURN expression SEMI_COLON
                 {
 
@@ -257,7 +247,6 @@ var             : ID
                 {
                     $$ = maketreeWithVal(IDENTIFIER, $1);
                 }
-                ;
                 | ID LBRACKET addExpr RBRACKET
                 {
 
@@ -268,7 +257,6 @@ expression      : addExpr
                 {
 
                 }
-                ;
                 | expression relop addExpr
                 {
 
@@ -279,27 +267,22 @@ relop            : LTE
                 {
 
                 }
-                ;
                 | LT
                 {
 
                 }
-                ;
                 | GT
                 {
 
                 }
-                ;
                 | GTE
                 {
 
                 }
-                ;
                 | ==
                 {
 
                 }
-                ;
                 | NEQ
                 {
 
@@ -310,7 +293,6 @@ addExpr         : term
                 {
 
                 }
-                ;
                 | addExpr addop term
                 {
 
@@ -321,7 +303,6 @@ addop            : ADD
                 {
 
                 }
-                ;
                 | SUB
                 {
 
@@ -332,7 +313,6 @@ term             : factor
                 {
 
                 }
-                ;
                 | term mulop factor
                 {
 
@@ -343,7 +323,6 @@ mulop           : MUL
                 {
 
                 }
-                ;
                 | DIV
                 {
 
@@ -354,27 +333,22 @@ factor          : LPAREN expression RPAREN
                 {
 
                 }
-                ;
                 | var
                 {
 
                 }
-                ;
                 | funcCallExpr
                 {
 
                 }
-                ;
                 | INTCONST
                 {
 
                 }
-                ;
                 | CHARCONST
                 {
 
                 }
-                ;
                 | STRCONST
                 {
 
@@ -385,7 +359,6 @@ funcCallExpr    : ID LPAREN argList RPAREN
                 {
 
                 }
-                ;
                 | ID LPAREN RPAREN
                 {
 
@@ -396,7 +369,6 @@ argList          : expression
                 {
 
                 }
-                ;
                 | argList COMMA expression
                 {
 
