@@ -60,7 +60,7 @@ char* scope = "";
 
 
 
-*/
+
 %start program
 
 %%
