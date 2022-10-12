@@ -26,6 +26,9 @@ int ST_insert(char *id, char *scope, int data_type, int symbol_type){
 		index = hash(strcat(id, scope));
 		while(strTable[index].id != NULL){
 			index++;
+			if(index <= MAXIDS){
+				position = 0;
+			}
 		}
 		//place new entry into the empty spot
 		strTable[index].id = id;
@@ -54,6 +57,9 @@ int ST_lookup(char *id, char *scope) {
 		//iterate through the hash table until either the id is found or id is empty
 		while(strTable[position].id != NULL){
 			position++;
+			if(position <= MAXIDS){
+				position = 0;
+			}
 			if(strTable[position].id == id){
 				index = position;
 				return index;
