@@ -315,7 +315,11 @@ addExpr         : term
                 }
                 | addExpr addop term
                 {
-
+                   tree *addExprNode = maketree(ADDEXPR);
+                   addChild(addExprNode, $1);
+                   addChild(addExprNode, $2);
+                   addChild(addExprNode, $3);
+                   $$ = addExprNode;
                 }
                 ;
 
@@ -337,7 +341,12 @@ term             : factor
                 }
                 | term mulop factor
                 {
-
+                     tree* termNode = maketree(TERM);
+                     tree* termNode = maketree(TERM);
+                     addChild(termNode, $1);
+                     addChild(termNode, $2);
+                     addChild(termNode, $3);
+                     $$ = termNode;
                 }
                 ;
 
@@ -353,7 +362,9 @@ mulop           : MUL_OP
 
 factor          : LPAREN expression RPAREN
                 {
-
+                     tree* factorNode = maketree(FACTOR);
+                     addChild(factorNode, $2);
+                     $$ = factorNode;
                 }
                 | var
                 {
@@ -369,24 +380,30 @@ factor          : LPAREN expression RPAREN
                 }
                 | INTCONST
                 {
-
+                   $$ = maketreeWithVal(INTCONSTANT, yylval.val);
                 }
                 | CHARCONST
                 {
-
+                   $$ = maketreeWithVal(CHARCONSTANT, yylval.val);
                 }
                 | STRCONST
                 {
-
+                   $$ = maketreeWithVal(STRCONSTANT, yylval.val);
                 }
                 ;
 
 funcCallExpr    : ID LPAREN argList RPAREN
                 {
-
+                        tree *funcCall = maketree(FUNCCALLEXPR);
+                        addChild(funcCall, maketreeWithVal(IDENTIFIER, yylval.val));
+                        addChild(funcCall, $3);
+                        $$ = funcCall;
                 }
                 | ID LPAREN RPAREN
                 {
+                        tree *funcCall = maketree(FUNCCALLEXPR);
+                        addChild(funcCall, maketreeWithVal(IDENTIFIER, yylval.val));
+                        $$ = funcCall;
 
                 }
                 ;
@@ -399,7 +416,10 @@ argList          : expression
                 }
                 | argList COMMA expression
                 {
-
+                       tree *argList = maketree(ARGLIST);
+                       addChild(argList, $1);
+                       addChild(argList, $3);
+                       $$ = argList;
                 }
                 ;
 %%
