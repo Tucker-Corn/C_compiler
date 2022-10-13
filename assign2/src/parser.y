@@ -108,7 +108,10 @@ decl            : varDecl
 
 varDecl         : typeSpecifier ID LBRACKET INTCONST RBRACKET SEMI_COLON
                  {
-                
+                    printf("%s\n", yylval.strval);
+                    tree *declNode = maketree(VARDECL);
+                    addChild(declNode, $1);
+                    $$ = declNode;
                  }
                 | typeSpecifier ID SEMI_COLON
                  {
@@ -151,37 +154,65 @@ formalDeclList  : formalDecl
                 }
                 | formalDecl COMMA formalDeclList
                 {
-
+                      tree* formaldeclNode = maketree(FORMALDECL);
+                      addChild(formaldeclNode, $1);
+                      addChild(formalDeclListNode, $3);
+                      $$ = formaldeclNode;
                 }
                 ;
 
 formalDecl      : typeSpecifier ID
                 {
+                 tree *declNode = maketree(FORMALDECL);
+                 addChild(declNode, $1);
+                 addChild(declNode, maketreeWithVal(IDENTIFIER,$1));
+                 $$ = declNode;
 
                 }
                 | typeSpecifier ID LBRACKET RBRACKET
                 {
-
+                  tree *declNode = maketree(FORMALDECL);
+                  addChild(declNode, $1);
+                  addChild(declNode, maketreeWithVal(IDENTIFIER,$1));
+                  $$ = declNode;
                 }
                 ;
 
 funBody         : LCURLY localDeclList statementList RCURLY
                 {
-
+                   tree *funBodyNode = maketree(FUNBODY);
+                   addChild(funBodyNode, $2);
+                   addChild(funBodyNode, $3);
+                   scope--;
+                   $$ = funBodyNode;
                 }
                 ;
 
 localDeclList :
+                {
+                        tree *localDeclListNode = maketree(LOCALDECLLIST);
+                        $$ = localDeclListNode;
+                }
                 | varDecl localDeclList
                 {
-                     
+                 tree *localDeclListNode = maketree(LOCALDECLLIST);
+                 addChild(localDeclListNode, $1);
+                 addChild(localDeclListNode, $2);
+                 $$ = localDeclListNode;
                 }
                 ;
 
 statementList :
+                {
+                        tree *statementNode = maketree(STATEMENTLIST);
+                        $$ = statementNode;
+                }
                 | statement statementList
                 {
-
+                        tree *statementNode = maketree(STATEMENTLIST);
+                        addChild(statementNode, $1);
+                        addChild(statementNode, $2);
+                        $$ = statementNode;
                 }
                 ;
 
@@ -219,43 +250,64 @@ statement        : compoundStmt
 
 compoundStmt    : LCURLY statementList RCURLY
                 {
-
+                    tree *compoundStmtNode = maketree(CompoundSTMT);
+                    addChild(compoundStmtNode, $3);
+                    $$ = compoundStmtNode;
                 }
                 ;
 
 assignStmt      : var EQ_OP expression SEMI_COLON
                 {
-
+                     tree *assignmentNode = maketree(AssignSTMT);
+                     addChild(assignmentNode, $1);
+                     addChild(assignmentNode, $3);
+                     $$ = assignmentNode;
                 }
                 | expression  SEMI_COLON
                 {
-
+                    tree *assignmentNode = maketree(AssignSTMT);
+                    addChild(assignmentNode, $1);
+                    $$ = assignmentNode;
                 }
                 ;
 
 condStmt        : KWD_IF LPAREN expression RPAREN statement
                 {
+                   tree *condNode = maketree(CondSTMT);
+                   addChild(condNode, $3);
+                   addChild(condNode, $5);
+                   $$ = condNode;
 
                 }
                 | KWD_IF LPAREN expression RPAREN statement KWD_ELSE statement
                 {
-
+                   tree *condNode = maketree(CondSTMT);
+                   addChild(condNode, $3);
+                   addChild(condNode, $5);
+                   addChild(condNode, $7);
+                   $$ = condNode;
                 }
                 ;
 
 loopStmt        : KWD_WHILE LPAREN expression RPAREN statement
                 {
-
+                   tree *loopNode = maketree(LoopSTMT);
+                   addChild(loopNode, $3);
+                   addChild(loopNode, $5);
+                   $$ = loopNode;
                 }
                 ;
 
 returnStmt      : KWD_RETURN SEMI_COLON
                 {
-
+                   tree* returnStmtNode = maketree(RETURNSTMT);
+                   $$ = returnStmtNode;
                 }
                 | KWD_RETURN expression SEMI_COLON
                 {
-
+                tree *returnNode = maketree(RETURNSTMT);
+                addChild(returnNode, $2);
+                $$ = returnNode;
                 }
                 ;
 
@@ -265,7 +317,10 @@ var             : ID
                 }
                 | ID LBRACKET addExpr RBRACKET
                 {
-
+                    tree *varNode = maketree(VAR);
+                    addChild(varNode, maketreeWithVal(IDENTIFIER,saveyylval));
+                    addChild(varNode, $4);
+                    $$ = varNode;
                 }
                 ;
 
@@ -277,7 +332,11 @@ expression      : addExpr
                 }
                 | expression relop addExpr
                 {
-
+                        tree* ExprNode = maketree(EXPRESSION);
+                        addChild(ExprNode, $1);
+                        addChild(ExprNode, $2);
+                        addChild(ExprNode, $3);
+                        $$ = ExprNode;
                 }
                 ;
 
