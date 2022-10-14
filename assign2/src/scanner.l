@@ -48,24 +48,24 @@ yylineno = 1;
 \+              {updateCol(); return ADD_OP;}
 \-              {updateCol(); return SUB_OP;}
 \*              {updateCol(); return MUL_OP;}
-\/              {updateCol(); return OPER_DIV;}
-\<=             {updateCol(); return OPER_LTE;}
-\>=             {updateCol(); return OPER_GTE;}
-\<              {updateCol(); return OPER_LT;}
-\>              {updateCol(); return OPER_GT;}
-==              {updateCol(); return OPER_EQ;}
-!=              {updateCol(); return OPER_NEQ;}
-=               {updateCol(); return OPER_ASGN;}
+\/              {updateCol(); return DIV_OP;}
+\<=             {updateCol(); return LTE_OP;}
+\>=             {updateCol(); return GTE_OP;}
+\<              {updateCol(); return LT_OP;}
+\>              {updateCol(); return GT_OP;}
+==              {updateCol(); return EQ_OP;}
+!=              {updateCol(); return NEQ_OP;}
+=               {updateCol(); return ASSIGN_OP;}
 
  /* Punctuation */;
-\[              {updateCol(); return LSQ_BRKT;}
-\]              {updateCol(); return RSQ_BRKT;}
-\{              {updateCol(); return LCRLY_BRKT;}
-\}              {updateCol(); return RCRLY_BRKT;}
+\[              {updateCol(); return LBRACKET;}
+\]              {updateCol(); return RBRACKET;}
+\{              {updateCol(); return LCURLY;}
+\}              {updateCol(); return RCURLY;}
 \(              {updateCol(); return LPAREN;}
 \)              {updateCol(); return RPAREN;}
 ,               {updateCol(); return COMMA;}
-;               {updateCol(); return SEMICLN;}
+;               {updateCol(); return SEMI_COLON;}
 
  /* Identifiers */;
 {identifier}    {updateCol();
