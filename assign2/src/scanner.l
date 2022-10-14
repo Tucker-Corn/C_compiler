@@ -45,9 +45,9 @@ yylineno = 1;
 "void"          {updateCol(); return KWD_VOID;}
 
  /* Operators */;
-\+              {updateCol(); return OPER_ADD;}
-\-              {updateCol(); return OPER_SUB;}
-\*              {updateCol(); return OPER_MUL;}
+\+              {updateCol(); return ADD_OP;}
+\-              {updateCol(); return SUB_OP;}
+\*              {updateCol(); return MUL_OP;}
 \/              {updateCol(); return OPER_DIV;}
 \<=             {updateCol(); return OPER_LTE;}
 \>=             {updateCol(); return OPER_GTE;}
