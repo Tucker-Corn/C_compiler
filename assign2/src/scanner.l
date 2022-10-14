@@ -4,6 +4,7 @@
 %{
 #include<stdio.h>
 #include"../obj/y.tab.h"
+#include "tokendef.h"
 
 int scancol = 1;
 int yycol = 1;
