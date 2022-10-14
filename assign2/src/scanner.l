@@ -3,7 +3,7 @@
 
 %{
 #include<stdio.h>
-//#include"../obj/y.tab.h"
+#include"../obj/y.tab.h"
 #include "tokendef.h"
 
 int scancol = 1;
@@ -87,7 +87,7 @@ yylineno = 1;
  /* Other */;
 {newline}       {scancol = 1; scanlineno++; yylineno = scanlineno;}
 {whitespace}    {updateCol(); /* skip whitespace */}
-.               {return ILLEGAL_TOKEN;}
+.               {return ILLEGAL_TOK;}
 
 %%
 
