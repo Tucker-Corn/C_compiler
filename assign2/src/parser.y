@@ -63,7 +63,7 @@ char* scope = "";
 
 %start program
 
-
+%%
 /* TODO: Your grammar and semantic actions go here. We provide with two example productions and their associated code for adding non-terminals to the AST.*/
 
 program         : declList
