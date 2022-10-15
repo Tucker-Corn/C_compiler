@@ -69,7 +69,7 @@ char* scope = "";
 %type <node>varDecl 
 %type <node>typeSpecifier 
 %type <node>funDecl 
-%type <node>ormalDeclList 
+%type <node>formalDeclList 
 %type <node>formalDecl 
 %type <node>funBody 
 %type <node>localDeclList 
@@ -177,7 +177,7 @@ funDecl          : typeSpecifier ID LPAREN formalDeclList RPAREN funBody
 
 formalDeclList  : formalDecl
                 {
-                    tree* formaldeclNode = maketree(FORMALDECL);
+                    tree *formaldeclNode = maketree(FORMALDECL);
                     addChild(formaldeclNode, $1);
                     $$ = formaldeclNode;
                 }
