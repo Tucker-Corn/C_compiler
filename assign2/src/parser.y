@@ -93,6 +93,19 @@ char* scope = "";
 %%
 /* TODO: Your grammar and semantic actions go here. We provide with two example productions and their associated code for adding non-terminals to the AST.*/
 
+decl            : varDecl
+                 {
+                    tree* declNode = maketree(decl);
+                    addChild(declNode, $1);
+                    $$ = declNode; 
+                 }
+                | funDecl
+                 {
+                    tree* declNode = maketree(decl);
+                    addChild(declNode, $1);
+                    $$ = declNode; 
+                 }
+                ;
 program         : declList
                  {
                     tree* progNode = maketree(PROGRAM);
@@ -116,19 +129,7 @@ declList        : decl
                  }
                 ;
 
-decl            : varDecl
-                 {
-                    tree* declNode = maketree(decl);
-                    addChild(declNode, $1);
-                    $$ = declNode; 
-                 }
-                | funDecl
-                 {
-                    tree* declNode = maketree(decl);
-                    addChild(declNode, $1);
-                    $$ = declNode; 
-                 }
-                ;
+
 
 varDecl         : typeSpecifier ID LBRACKET INTCONST RBRACKET SEMI_COLON
                  {
