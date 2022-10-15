@@ -64,32 +64,32 @@ char* scope = "";
 /* TODO: Declate non-terminal symbols as of type node. Provided below is one example. node is defined as 'struct treenode *node' in the above union data structure. This declaration indicates to parser that these non-terminal variables will be implemented using a 'treenode *' type data structure. Hence, the circles you draw when drawing a parse tree, the following lines are telling yacc that these will eventually become circles in an AST. This is one of the connections between the AST you draw by hand and how yacc implements code to concretize that. We provide with two examples: program and declList from the grammar. Make sure to add the rest.  */
 
 %type <node> program 
-%type <node>declList 
-%type <node>decl 
-%type <node>varDecl 
-%type <node>typeSpecifier 
-%type <node>funDecl 
-%type <node>formalDeclList 
-%type <node>formalDecl 
-%type <node>funBody 
-%type <node>localDeclList 
-%type <node>statementList 
-%type <node>statement 
-%type <node>compoundStmt 
-%type <node>assignStmt 
-%type <node>condStmt 
-%type <node>loopStmt 
-%type <node>returnStmt 
-%type <node>var 
-%type <node>expression 
-%type <node>relop 
-%type <node>addExpr 
-%type <node>addop 
-%type <node>term 
-%type <node>mulop 
-%type <node>factor 
-%type <node>funcCallExpr 
-%type <node>argList
+%type <node> declList 
+%type <node> decl 
+%type <node> varDecl 
+%type <node> typeSpecifier 
+%type <node> funDecl 
+%type <node> formalDeclList 
+%type <node> formalDecl 
+%type <node> funBody 
+%type <node> localDeclList 
+%type <node> statementList 
+%type <node> statement 
+%type <node> compoundStmt 
+%type <node> assignStmt 
+%type <node> condStmt 
+%type <node> loopStmt 
+%type <node> returnStmt 
+%type <node> var 
+%type <node> expression 
+%type <node> relop 
+%type <node> addExpr 
+%type <node> addop 
+%type <node> term 
+%type <node> mulop 
+%type <node> factor 
+%type <node> funcCallExpr 
+%type <node> argList
 
 
 
