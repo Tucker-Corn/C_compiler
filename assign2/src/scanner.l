@@ -5,8 +5,6 @@
 #include<stdio.h>
 #include"../obj/y.tab.h"
 //#include "tokendef.h"
-#define ERROR 302
-#define ILLEGAL_TOK 303
 
 int scancol = 1;
 int yycol = 1;
