@@ -177,7 +177,7 @@ funDecl          : typeSpecifier ID LPAREN formalDeclList RPAREN funBody
 
 formalDeclList  : formalDecl
                 {
-                    tree *formaldeclNode = maketree(FORMALDECL);
+                    tree* formaldeclNode = maketree(FORMALDECL);
                     addChild(formaldeclNode, $1);
                     $$ = formaldeclNode;
                 }
