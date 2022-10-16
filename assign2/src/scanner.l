@@ -7,7 +7,7 @@
 //#include "tokendef.h"
 
 #define ERROR 301
-#define ILLEGAL_TOK
+#define ILLEGAL_TOK 302
 
 int scancol = 1;
 int yycol = 1;
