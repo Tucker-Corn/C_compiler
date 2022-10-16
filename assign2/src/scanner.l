@@ -6,6 +6,9 @@
 #include"../obj/y.tab.h"
 //#include "tokendef.h"
 
+#define ERROR 301
+#define ILLEGAL_TOK
+
 int scancol = 1;
 int yycol = 1;
 int scanlineno = 1;
