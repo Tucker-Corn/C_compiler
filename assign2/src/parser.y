@@ -2,8 +2,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
-#include<../src/tree.h>
-#include<../src/strtab.h>
+#include<tree.h>
+#include<strtab.h>
 
 extern int yylineno;
 /* nodeTypes refer to different types of internal and external nodes that can be part of the abstract syntax tree.*/
@@ -55,6 +55,8 @@ char* scope = "";
 %token <value> MUL_OP DIV_OP
 %token <value> SEMI_COLON 
 %token <value> COMMA 
+%token <value> ERROR
+%token <value> ILLEGAL_TOK
 /* TODO: Declate non-terminal symbols as of type node. Provided below is one example. node is defined as 'struct treenode *node' in the above union data structure. This declaration indicates to parser that these non-terminal variables will be implemented using a 'treenode *' type data structure. Hence, the circles you draw when drawing a parse tree, the following lines are telling yacc that these will eventually become circles in an AST. This is one of the connections between the AST you draw by hand and how yacc implements code to concretize that. We provide with two examples: program and declList from the grammar. Make sure to add the rest.  */
 
 %type <node> program declList decl varDecl typeSpecifier funDecl formalDeclList formalDecl  funBody localDeclList statementList statement compoundStmt assignStmt condStmt loopStmt returnStmt var expression relop addExpr addop term mulop factor funcCallExpr argList
@@ -75,7 +77,7 @@ program         : declList
                     ast = progNode;
                  }
                 ;
-decl            : varDecl 
+declnode            : varDecl 
                  {
                     tree *declNode = maketree(DECL);
                     addChild(declNode, $1);
