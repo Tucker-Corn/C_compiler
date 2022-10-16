@@ -70,33 +70,33 @@ char* scope = "";
 
 program         : declList 
                  {
-                    tree* progNode = maketree(PROGRAM);
+                    tree *progNode = maketree(PROGRAM);
                     addChild(progNode, $1);
                     ast = progNode;
                  }
                 ;
 decl            : varDecl 
                  {
-                    tree* declNode = maketree(DECL);
+                    tree *declNode = maketree(DECL);
                     addChild(declNode, $1);
                     $$ = declNode; 
                  }
                 | funDecl ID SEMI_COLON
                  {
-                    tree* declNode = maketree(DECL);
+                    tree *declNode = maketree(VARDECL);
                     addChild(declNode, $1);
                     $$ = declNode; 
                  }
                 ;
 declList        : decl
                  {
-                    tree* declListNode = maketree(DECLLIST);
+                    tree *declListNode = maketree(DECLLIST);
                     addChild(declListNode, $1);
                     $$ = declListNode;
                  }
                 | declList decl
                  {
-                    tree* declListNode = maketree(DECLLIST);
+                    tree *declListNode = maketree(DECLLIST);
                     addChild(declListNode, $1);
                     addChild(declListNode, $2);
                     $$ = declListNode;
@@ -147,7 +147,7 @@ funDecl          : typeSpecifier ID LPAREN formalDeclList RPAREN funBody
 
 formalDeclList  : formalDecl
                 {
-                    tree* formaldeclNode = maketree(FORMALDECL);
+                    tree *formaldeclNode = maketree(FORMALDECL);
                     addChild(formaldeclNode, $1);
                     $$ = formaldeclNode;
                 }
@@ -249,7 +249,7 @@ statement        : compoundStmt
 
 compoundStmt    : LCURLY statementList RCURLY
                 {
-                    tree *compoundStmtNode = maketree(CompoundSTMT);
+                    tree *compoundStmtNode = maketree(COMPOUNDSTMT);
                     addChild(compoundStmtNode, $3);
                     $$ = compoundStmtNode;
                 }
@@ -257,14 +257,14 @@ compoundStmt    : LCURLY statementList RCURLY
 
 assignStmt      : var EQ_OP expression SEMI_COLON
                 {
-                     tree *assignmentNode = maketree(AssignSTMT);
+                     tree *assignmentNode = maketree(ASSIGNSTMT);
                      addChild(assignmentNode, $1);
                      addChild(assignmentNode, $3);
                      $$ = assignmentNode;
                 }
                 | expression  SEMI_COLON
                 {
-                    tree *assignmentNode = maketree(AssignSTMT);
+                    tree *assignmentNode = maketree(ASSIGNSTMT);
                     addChild(assignmentNode, $1);
                     $$ = assignmentNode;
                 }
@@ -272,7 +272,7 @@ assignStmt      : var EQ_OP expression SEMI_COLON
 
 condStmt        : KWD_IF LPAREN expression RPAREN statement
                 {
-                   tree *condNode = maketree(CondSTMT);
+                   tree *condNode = maketree(CONDSTMT);
                    addChild(condNode, $3);
                    addChild(condNode, $5);
                    $$ = condNode;
@@ -280,7 +280,7 @@ condStmt        : KWD_IF LPAREN expression RPAREN statement
                 }
                 | KWD_IF LPAREN expression RPAREN statement KWD_ELSE statement
                 {
-                   tree *condNode = maketree(CondSTMT);
+                   tree *condNode = maketree(CONDSTMT);
                    addChild(condNode, $3);
                    addChild(condNode, $5);
                    addChild(condNode, $7);
@@ -290,7 +290,7 @@ condStmt        : KWD_IF LPAREN expression RPAREN statement
 
 loopStmt        : KWD_WHILE LPAREN expression RPAREN statement
                 {
-                   tree *loopNode = maketree(LoopSTMT);
+                   tree *loopNode = maketree(LOOPSTMT);
                    addChild(loopNode, $3);
                    addChild(loopNode, $5);
                    $$ = loopNode;
