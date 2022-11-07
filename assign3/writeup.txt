@@ -7,7 +7,7 @@
     The members of our team had been busy throughout the past few weeks. Our assign3 is not up to the standards we know we are capable of.
     We plan to work every day on asign4 to get a fully working compiler before the deadline.
     
- 3.Each team member collaborated on discord to throughout the week,comunnicating schedule complications as well as our understandment of the assignment.
+ 3.Each team member collaborated on discord to throughout the week,comunnicating schedule complications as well as our understanding of the assignment.
   Tucker Corn- implimented basic outline of the parser and what is expected of it to communicate through the symbol table using strtab. created simple tests.
   
  4. test1.mC
