@@ -1,0 +1,14 @@
+1. -Tucker Corn
+2. -Gunnar Moffitt
+3. -Deverll Mays
+ CS4318_5331
+ 
+ 2. Our collaboration for assignment 1 is from using github for repositorys/working branches and discord to communitcate.
+    The members of our team had been busy throughout the past few weeks. Our assign3 is not up to the standards we know we are capable of.
+    We plan to work every day on asign4 to get a fully working compiler before the deadline.
+    
+ 3.Each team member collaborated on discord to throughout the week,comunnicating schedule complications as well as our understandment of the assignment.
+  Tucker Corn- implimented basic outline of the parser and what is expected of it to communicate through the symbol table using strtab. created simple tests.
+  
+ 4. test1.mC
+    test2.mC
