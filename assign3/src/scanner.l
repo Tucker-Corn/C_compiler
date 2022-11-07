@@ -4,13 +4,17 @@
 %{
 #include<stdio.h>
 #include"../obj/y.tab.h"
+//#include "tokendef.h"
+#define ERROR 301
+#define ILLEGAL_TOK 302
+
 
 int scancol = 1;
 int yycol = 1;
 int scanlineno = 1;
 
 char* yyerrormsg;
-
+char* yyerror;
 void updateCol();
 void countLines();
 int processChar();
@@ -22,8 +26,10 @@ integer         0|[1-9][0-9]*
 integerlead0    0[0-9]+
 character       \'([^\']|\\[\\nt\'])\'
 
-comment         \/\*([^\*]|\*[^\/])*\*\/
-untermcomment   \/\*([^\*]|\*[^\/])*
+
+comment         \/\*\/?([^\n\/]|[^\*]\/)*\*\/
+multlncomment   \/\*\/?([^\/]|[^\*]\/)*\n([^\/]|[^\*]\/)*\*\/
+untermcomment   \/\*\/?([^\/\n]|[^\*]\/)*
 
 identifier      [a-zA-Z][a-zA-Z0-9]*
 illidentifier   [0-9]+[a-zA-Z][a-zA-Z0-9]*
@@ -44,27 +50,27 @@ yylineno = 1;
 "void"          {updateCol(); return KWD_VOID;}
 
  /* Operators */;
-\+              {updateCol(); return OPER_ADD;}
-\-              {updateCol(); return OPER_SUB;}
-\*              {updateCol(); return OPER_MUL;}
-\/              {updateCol(); return OPER_DIV;}
-\<=             {updateCol(); return OPER_LTE;}
-\>=             {updateCol(); return OPER_GTE;}
-\<              {updateCol(); return OPER_LT;}
-\>              {updateCol(); return OPER_GT;}
-==              {updateCol(); return OPER_EQ;}
-!=              {updateCol(); return OPER_NEQ;}
-=               {updateCol(); return OPER_ASGN;}
+\+              {updateCol(); return ADD_OP;}
+\-              {updateCol(); return SUB_OP;}
+\*              {updateCol(); return MUL_OP;}
+\/              {updateCol(); return DIV_OP;}
+\<=             {updateCol(); return LTE_OP;}
+\>=             {updateCol(); return GTE_OP;}
+\<              {updateCol(); return LT_OP;}
+\>              {updateCol(); return GT_OP;}
+==              {updateCol(); return EQ_OP;}
+!=              {updateCol(); return NEQ_OP;}
+=               {updateCol(); return ASSIGN_OP;}
 
  /* Punctuation */;
-\[              {updateCol(); return LSQ_BRKT;}
-\]              {updateCol(); return RSQ_BRKT;}
-\{              {updateCol(); return LCRLY_BRKT;}
-\}              {updateCol(); return RCRLY_BRKT;}
+\[              {updateCol(); return LBRACKET;}
+\]              {updateCol(); return RBRACKET;}
+\{              {updateCol(); return LCURLY;}
+\}              {updateCol(); return RCURLY;}
 \(              {updateCol(); return LPAREN;}
 \)              {updateCol(); return RPAREN;}
 ,               {updateCol(); return COMMA;}
-;               {updateCol(); return SEMICLN;}
+;               {updateCol(); return SEMI_COLON;}
 
  /* Identifiers */;
 {identifier}    {updateCol();
@@ -81,6 +87,7 @@ yylineno = 1;
  /* Comments */;
 {comment}       {updateCol(); /* skip comments */}
 {untermcomment} {updateCol(); yyerrormsg = "Unterminated comment"; return ERROR;}
+{multlncomment} {updateCol(); countLines(); yyerrormsg = "Comment spans multiple lines"; return ERROR;}
 
  /* Other */;
 {newline}       {scancol = 1; scanlineno++; yylineno = scanlineno;}
@@ -103,6 +110,7 @@ void countLines(){
             scanlineno++;
     }
 }
+
 int processChar(){
     // yytext[0] will be "'", so check yytext[1] for escap
     if (yytext[1] == '\\'){
