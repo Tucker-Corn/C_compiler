@@ -9,6 +9,7 @@
     
  3.Each team member collaborated on discord to throughout the week,comunnicating schedule complications as well as our understanding of the assignment.
   Tucker Corn- implimented basic outline of the parser and what is expected of it to communicate through the symbol table using strtab. created simple tests.
+  Gunnar Moffitt- Implemended strtab functions and made bug fixes for compilation
   
  4. test1.mC
     test2.mC
