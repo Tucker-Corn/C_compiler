@@ -1,6 +1,6 @@
 1. -Tucker Corn
 2. -Gunnar Moffitt
-3. -Deverll Mays
+3. -Deverell Mays
  CS4318_5331
  
  2. Our collaboration for assignment 1 is from using github for repositorys/working branches and discord to communitcate.
@@ -10,6 +10,7 @@
  3.Each team member collaborated on discord to throughout the week,comunnicating schedule complications as well as our understanding of the assignment.
   Tucker Corn- implimented basic outline of the parser and what is expected of it to communicate through the symbol table using strtab. created simple tests.
   Gunnar Moffitt- Implemended strtab functions and made bug fixes for compilation
+  Deverell Mays - Implemented various updates and made fixes to files at hand !!
   
  4. test1.mC
     test2.mC
