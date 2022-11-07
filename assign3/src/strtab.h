@@ -29,6 +29,8 @@ typedef struct table_node{
     int numChildren;
     struct table_node* parent;
     struct table_node* first_child; // First subscope
+    struct table_node* second_child;
+    struct table_node* third_child;
     struct table_node* last_child;  // Most recently added subscope
     struct table_node* next; // Next subscope that shares the same parent
 } table_node; // Describes each node in the symbol table tree and is used to implement a tree for the nested scope as discussed in lecture 13 and 14.
