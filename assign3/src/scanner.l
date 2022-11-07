@@ -89,6 +89,8 @@ yylineno = 1;
 {untermcomment} {updateCol(); yyerrormsg = "Unterminated comment"; return ERROR;}
 {multlncomment} {updateCol(); countLines(); yyerrormsg = "Comment spans multiple lines"; return ERROR;}
 
+ /* Number */;   {yycol+=yyleng; yylval.value = atoi(yytext); return INTCONST;}
+
  /* Other */;
 {newline}       {scancol = 1; scanlineno++; yylineno = scanlineno;}
 {whitespace}    {updateCol(); /* skip whitespace */}
@@ -111,19 +113,25 @@ void countLines(){
     }
 }
 
-int processChar(){
-    // yytext[0] will be "'", so check yytext[1] for escap
-    if (yytext[1] == '\\'){
-        if (yytext[2] == '\''){
+int processChar()
+{
+    // yytext[0] will be "'", so check yytext[1] for escape
+    if (yytext[1] == '\\')
+    {
+        if (yytext[2] == '\'')
+        {
             yylval.value = '\'';
         }
-        else if (yytext[2] == 'n'){
+        else if (yytext[2] == 'n')
+        {
             yylval.value = '\n';
         }
-        else if (yytext[2] == 't'){
+        else if (yytext[2] == 't')
+        {
             yylval.value = '\t';
         }
-        else if (yytext[2] == '\\'){
+        else if (yytext[2] == '\\')
+        {
             yylval.value = '\\';
         }
         else{

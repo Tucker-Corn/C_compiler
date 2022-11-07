@@ -6,14 +6,16 @@
 
 extern FILE* yyin;
 
-void printhelp(){
+void printhelp()
+{
     printf("Usage: mcc [--ast] [--sym] [-h|--help] FILE\n");
     printf("\t--ast:\t\tPrint a textual representation of the constructed abstract syntax tree.\n");
     printf("\t--sym:\t\tPrint a textual representation of the constructed symbol table.\n");
     printf("\t-h,--help:\tPrint this help information and exit.\n\n");
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     int p_ast = 0;
     int p_symtab = 0;
 
