@@ -55,53 +55,52 @@ void emitforstmt(tree *ast,FILE *outfile) {
                   forlabel);
 }
 
-void emitOperation(int op, int r1, int r2, int dst, FILE *outfile){
+emitOperation(int op, int dst, int r1){
 	switch(op){
-		case NUM:
-			fprintf(outfile, "\tli %s %d",registernames[dst], r1 );
-			break;
-		case ID:
-			fprintf(outfile, "\tlw %s %s", registernames[dst], registernames[r1], r2);
-			break;
-		case +;
-			fprintf(outfile, "\tadd %s %s %s", registernames[dst], registernames[r1], registernames[r2]);
-			break;
-		case -;
-			fprintf(outfile, "\tsub %s %s %s", registernames[dst], registernames[r1], registernames[r2]);
-			break;
-		case *;
-			fprintf(outfile, "\tmul %s %s %s", registernames[dst], registernames[r1], registernames[r2])
-			break;
-		case /;
-			fprintf(outfile, "\tdiv %s %s", registernames[r1], registernames[r2]);
-			fprintf(outfile, "\t mflo %s", registernames[dst]);
-			break;
+		case:
 	}
-	return;
+
 }
 
 
-void Expression(tree *ast, FILE *outfile){
+Expression(tree *ast){
 	int result;
 	int reg1, reg2;
 	switch(ast->nodekind){
 		case * , / , + , - :
 
-			reg1 = Expression(getFirstChild(ast),FILE *outfile);
-			reg2 = Expression(getSecondChild(ast), FILE *outfile);
+			reg1 = Expression(getFirstChild(ast));
+			reg2 = Expression(getSecondChild(ast));
 			result = nextreg();
 			emitOperation(ast->nodekind, reg1, reg2, result);
 			break;
 		case ID:
+			if((result == hasseen(ID))){
+				//do nothing
+			}
+			else{
 			reg1 = base(ast);
 			reg2 = offset(ast);
 			result = nextreg();
 			emitOperation(ast->nodekind, reg1, reg2, result);
+			}
 			break;
 		case NUM:
 			result = nextreg();
 			emitOperation(ast->nodekind, ast->val, 0, result);
-
+			break;
+		case <:
+			reg1 = Expression(getFirstChild(ast));
+			reg2 = Expression(getSecondChild(ast));
+			result = nextreg();
+			emitOperation(slt, reg1, reg2, result);
+			break;
+		case >:
+			reg1 = Expression(getFirstChild(ast));
+			reg2 = Expression(getSecondChild(ast));
+			result = nextreg();
+			emitOperation(slt, reg2, reg1, result);
+			break;
 	}
 	return result;
 }
