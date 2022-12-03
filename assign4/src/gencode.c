@@ -101,12 +101,12 @@ Expression(tree *ast){
 			reg1 = base(ast);
 			reg2 = offset(ast);
 			result = nextreg();
-			emitOperation(ast->nodekind, reg1, reg2, result);
+			emitOperation(ld, reg1, reg2, result);
 			}
 			break;
 		case NUM:
 			result = nextreg();
-			emitOperation(ast->nodekind, ast->val, 0, result);
+			emitOperation(ldi, ast->val, 0, result);
 			break;
 		case <:
 			reg1 = Expression(getFirstChild(ast));
@@ -200,6 +200,23 @@ int gencode(tree *ast,FILE *outfile) {
     emitOperation(label, l2) 
   }
 
+  if(nodeKind == loopStmt){           //iterative,     same as conditional except it only needs to loop after the first statement and doesnt neeed to detect if else or else.
+    t1 = Expression(getCondNode(ast->node))
+
+    t1 = Expression(getCondNode(ast->node));   
+    t2 = nextReg(); 
+    emitOperation(ldi, 1, t2);
+    l1 = newLabel();
+    emitOperation(beq, t2, t1, l1);   
+
+    t3 = Expression(getElseClause(ast->node));  
+    l2 = newLabel(); 
+    emitOperation(jump, l2);
+    emitOperation(label, l1)                  
+    t4 = Expression(getThenClause(ast->node));  
+    emitOperation(label, l2) 
+  }
+	
   return -1; // (?)
 }
 
