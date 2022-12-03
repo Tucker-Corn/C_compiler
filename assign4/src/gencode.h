@@ -9,3 +9,4 @@ int getCondNode(ast->nodeKind);
 int getElseClause(ast->nodeKind);
 int getThenClause(ast->nodeKind);
 int nextreg();
+void emitOperation(int op, int dst, int r1);
