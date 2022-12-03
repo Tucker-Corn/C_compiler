@@ -6,7 +6,7 @@
  2. Our collaboration for assignment 4 is from using github for repositorys/working branches and discord to communitcate.
     
  3.
-  Tucker Corn- implimented basic outline of gencode.c. created the assignment statements and conditional statements generation in codegen.
+  Tucker Corn- implimented basic outline of gencode.c. implemented the assignment, conditional, expression, and iterative statements generation in codegen.
   Gunnar Moffitt- implemented basics expressions and emit function of codegen.c
   Deverell Mays - 
   
