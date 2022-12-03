@@ -19,7 +19,7 @@ An example of how / why for label counters
 Suppose we have:
 FORNODE
 FORNODE->children[0] = stmtnode (init)
-FORNODE->children[1] = condnode (condition)    asd
+FORNODE->children[1] = condnode (condition)    
 FORNODE->children[2] = compoundstmt (body)
 FORNODE->children[3] = stmtnode (post)
 */
@@ -106,23 +106,6 @@ void Expression(tree *ast, FILE *outfile){
 	return result;
 }
 
-
-
-int gencode(tree *ast,FILE *outfile) {
-  switch(ast->nodeKind) {
-  case FORSTMT:
-    emitforstmt(ast,outfile); return 0;
-  }
-  // if we don't return a value in the switch statement then it wasn't handled
-  // returning -1 should cause a seg-fault if used to index registernames[]
-  return -1;
-}
-*/
-
-/*
- * The following page is a good reference for MIPS
-https://ecs-network.serv.pacific.edu/ecpe-170/tutorials/mips-instruction-set
-*/
 int gencode(tree *ast,FILE *outfile) {
   // variables can't be defined inside a switch
   // move more complicated things to their own function to keep this cleaner
@@ -172,9 +155,45 @@ int gencode(tree *ast,FILE *outfile) {
       break;
     default: break;
   }
+  if (nodeKind == assignStmt){           //assignments
+    t1 = Expression(ast->getChild[1])
+
+    t2 = base(ast->getChild[0])
+    t3 = offset(ast->getChild[0])
+
+    emitOperation(st,t1,t2,t3)
+  }
+
+
+  if(nodeKind == condStmt){           //conditionals
+    t1 = Expression(getCondNode(ast->node))
+
+    t1 = Expression(getCondNode(ast->node));   
+    t2 = nextReg(); 
+    emitOperation(ldi, 1, t2);
+    l1 = newLabel();
+    emitOperation(beq, t2, t1, l1);   
+
+    t3 = Expression(getElseClause(ast->node));  
+    l2 = newLabel(); 
+    emitOperation(jump, l2);
+    emitOperation(label, l1)                  
+    t4 = Expression(getThenClause(ast->node));  
+    emitOperation(label, l2) 
+  }
+
   return -1; // (?)
 }
 
+int getCondNode(ast->nodeKind){
+
+}
+int getElseClause(ast->nodeKind){
+
+}
+int getThenClause(ast->nodeKind){
+
+}
 /*
 Number  | Name      | Description
 0       | $zero     | The value 0
