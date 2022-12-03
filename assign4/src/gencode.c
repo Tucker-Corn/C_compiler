@@ -19,9 +19,10 @@ An example of how / why for label counters
 Suppose we have:
 FORNODE
 FORNODE->children[0] = stmtnode (init)
-FORNODE->children[1] = condnode (condition)
+FORNODE->children[1] = condnode (condition)    asd
 FORNODE->children[2] = compoundstmt (body)
 FORNODE->children[3] = stmtnode (post)
+*/
 
 void emitforstmt(tree *ast,FILE *outfile) {
   // Get a unique label number for the labels of this FORSTMT
@@ -53,6 +54,42 @@ void emitforstmt(tree *ast,FILE *outfile) {
   fprintf(outfile,"FORSTMT_END%d: # End of for loop\n",
                   forlabel);
 }
+
+emitOperation(int op, int dst, int r1){
+	switch(op){
+		case:
+	}
+
+}
+
+
+Expression(tree *ast){
+	int result;
+	int reg1, reg2;
+	switch(ast->nodekind){
+		case * , / , + , - :
+
+			reg1 = Expression(getFirstChild(ast));
+			reg2 = Expression(getSecondChild(ast));
+			result = nextreg();
+			emitOperation(ast->nodekind, reg1, reg2, result);
+			break;
+		case ID:
+			reg1 = base(ast);
+			reg2 = offset(ast);
+			result = nextreg();
+			emitOperation(ast->nodekind, reg1, reg2, result);
+			break;
+		case NUM:
+			result = nextreg();
+			emitOperation(ast->nodekind, ast->val, 0, result);
+
+	}
+	return result;
+}
+
+
+
 int gencode(tree *ast,FILE *outfile) {
   switch(ast->nodeKind) {
   case FORSTMT:
