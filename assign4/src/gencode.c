@@ -117,6 +117,16 @@ int gencode(tree *ast,FILE *outfile) {
       break;
     default: break;
   }
+  
+  if (nodeKind == assignStmt){           //assignments
+    t1 = expr(ast->getChild[1])
+
+    t2 = base(ast->getChild[0])
+    t3 = offset(ast->getChild[0])
+
+    emit(st,t1,t2,t3)
+  }
+  
   return -1; // (?)
 }
 
