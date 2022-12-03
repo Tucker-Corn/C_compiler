@@ -55,22 +55,40 @@ void emitforstmt(tree *ast,FILE *outfile) {
                   forlabel);
 }
 
-emitOperation(int op, int dst, int r1){
+void emitOperation(int op, int r1, int r2, int dst, FILE *outfile){
 	switch(op){
-		case:
+		case NUM:
+			fprintf(outfile, "\tli %s %d",registernames[dst], r1 );
+			break;
+		case ID:
+			fprintf(outfile, "\tlw %s %s", registernames[dst], registernames[r1], r2);
+			break;
+		case +;
+			fprintf(outfile, "\tadd %s %s %s", registernames[dst], registernames[r1], registernames[r2]);
+			break;
+		case -;
+			fprintf(outfile, "\tsub %s %s %s", registernames[dst], registernames[r1], registernames[r2]);
+			break;
+		case *;
+			fprintf(outfile, "\tmul %s %s %s", registernames[dst], registernames[r1], registernames[r2])
+			break;
+		case /;
+			fprintf(outfile, "\tdiv %s %s", registernames[r1], registernames[r2]);
+			fprintf(outfile, "\t mflo %s", registernames[dst]);
+			break;
 	}
-
+	return;
 }
 
 
-Expression(tree *ast){
+void Expression(tree *ast, FILE *outfile){
 	int result;
 	int reg1, reg2;
 	switch(ast->nodekind){
 		case * , / , + , - :
 
-			reg1 = Expression(getFirstChild(ast));
-			reg2 = Expression(getSecondChild(ast));
+			reg1 = Expression(getFirstChild(ast),FILE *outfile);
+			reg2 = Expression(getSecondChild(ast), FILE *outfile);
 			result = nextreg();
 			emitOperation(ast->nodekind, reg1, reg2, result);
 			break;
