@@ -57,7 +57,26 @@ void emitforstmt(tree *ast,FILE *outfile) {
 
 emitOperation(int op, int dst, int r1){
 	switch(op){
-		case:
+			case NUM:
+				fprintf(outfile, "\tli %s %d",registernames[dst], r1 );
+				break;
+			case ID:
+				fprintf(outfile, "\tlw %s %s", registernames[dst], registernames[r1], r2);
+				break;
+			case +;
+				fprintf(outfile, "\tadd %s %s %s", registernames[dst], registernames[r1], registernames[r2]);
+				break;
+			case -;
+				fprintf(outfile, "\tsub %s %s %s", registernames[dst], registernames[r1], registernames[r2]);
+				break;
+			case *;
+				fprintf(outfile, "\tmul %s %s %s", registernames[dst], registernames[r1], registernames[r2])
+				break;
+			case /;
+				fprintf(outfile, "\tdiv %s %s", registernames[r1], registernames[r2]);
+				fprintf(outfile, "\t mflo %s", registernames[dst]);
+				break;
+			case:
 	}
 
 }

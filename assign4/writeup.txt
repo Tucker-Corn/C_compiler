@@ -7,7 +7,7 @@
     
  3.
   Tucker Corn- implimented basic outline of gencode.c. created the assignment statements and conditional statements generation in codegen.
-  Gunnar Moffitt- 
+  Gunnar Moffitt- implemented basics expressions and emit function of codegen.c
   Deverell Mays - 
   
  4. test1.mC
