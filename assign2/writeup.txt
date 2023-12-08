@@ -1,9 +1,0 @@
-Group Members
--Tucker Corn
--Gunnar moffitt
--deverell Mays
-
-**Contribution**
-Tucker Corn:
-Gunnar Moffitt: strtab.c implementation of the hash table functions.
-Deverell Mays:
